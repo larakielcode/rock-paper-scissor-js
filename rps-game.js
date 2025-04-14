@@ -19,27 +19,36 @@ function playRound(humanChoice, computerChoice) {
     if ((computerChoice <= .333) && (humanChoice == "rock")) {
         console.log("Its a draw! Both are rock");
     } else if ((computerChoice <= .333) && (humanChoice == "paper")) {
-        console.log("Human win! Paper beats rock.");
+        console.log("You win! Paper beats rock.");
+        humanScore++;
     } else if ((computerChoice <= .333) && (humanChoice == "scissor")) {
-        console.log("Computer win! Rock beats scissor.");
+        console.log("You Lose! Rock beats scissor.");
+        computerScore++;
     }
     if ((computerChoice >= .334 && computerChoice <= .666) && (humanChoice == "rock")) {
-        console.log("Computer Win. Paper beats rock.");
+        console.log("You Lose. Paper beats rock.");
+        computerScore++;
     } else if ((computerChoice >= .334 && computerChoice <= .666) && (humanChoice == "paper")) {
         console.log("Its a draw! Both are paper.");
     } else if ((computerChoice >= .334 && computerChoice <= .666) && (humanChoice == "scissor")) {
-        console.log("Human Win. Scissor beats paper.");
+        console.log("You Win. Scissor beats paper.");
+        humanScore++;
     }
     if ((computerChoice >= .667 && computerChoice <= 1) && (humanChoice == "rock")) {
-        console.log("Human Win. Rock beats scissor.");
+        console.log("You Win. Rock beats scissor.");
+        humanScore++;
     } else if ((computerChoice >= .667 && computerChoice <= 1) && (humanChoice == "paper")) {
-        console.log("Computer Win. Scissor beats paper.");
+        console.log("You Lose. Scissor beats paper.");
+        computerScore++;
     } else if ((computerChoice >= .667 && computerChoice <= 1) && (humanChoice == "scissor")) {
         console.log("Its a draw! Both are scissor.");
     }
+    return;
 }
 
 const humanChoice = getHumanChoice();
 const computerChoice = parseFloat(getComputerChoice().toFixed(3));
 
 playRound(humanChoice.toLowerCase(), computerChoice);
+console.log("Computer Score: " + computerScore);
+console.log("Your Score : " + humanScore);
