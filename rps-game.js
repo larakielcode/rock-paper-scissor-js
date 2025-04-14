@@ -46,9 +46,28 @@ function playRound(humanChoice, computerChoice) {
     return;
 }
 
-const humanChoice = getHumanChoice();
-const computerChoice = parseFloat(getComputerChoice().toFixed(3));
+function playGame(numOfGames) {
+    for (let index = 1; index <= numOfGames; index++) {
+        const humanChoice = getHumanChoice();
+        const computerChoice = parseFloat(getComputerChoice().toFixed(3));
 
-playRound(humanChoice.toLowerCase(), computerChoice);
+        playRound(humanChoice.toLowerCase(), computerChoice);
+    }
+}
+
+function getWinner(humansc, computersc) {
+    if (computersc > humansc) {
+        return "Computer Wins in a 5 game rounds!"
+    } else if (computersc < humansc) {
+        return "You Win in a 5 game rounds!"
+    } else {
+        return "It was a draw on a 5 game rounds!"
+    }
+}
+
+playGame(5);
+
 console.log("Computer Score: " + computerScore);
 console.log("Your Score : " + humanScore);
+
+console.log(getWinner(computerScore, humanScore));
