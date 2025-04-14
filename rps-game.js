@@ -70,4 +70,4 @@ playGame(5);
 console.log("Computer Score: " + computerScore);
 console.log("Your Score : " + humanScore);
 
-console.log(getWinner(computerScore, humanScore));
+console.log(getWinner(humanScore, computerScore));
