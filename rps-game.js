@@ -17,30 +17,33 @@ buttonsMenu.addEventListener("click", (event) => {
     switch (target.id) {
         case 'rock':
             playRound(target.id, parseFloat(getComputerChoice().toFixed(3)));
+            checkWinner();
             break;
         case 'paper':
             playRound(target.id, parseFloat(getComputerChoice().toFixed(3)));
+            checkWinner();
             break;
         case 'scissor':
             playRound(target.id, parseFloat(getComputerChoice().toFixed(3)));
+            checkWinner();
             break;
     }
 });
 
-function getWinner(humansc, computersc) {
-    if (computersc > humansc) {
-        //return "Computer Wins in a 5 game rounds!"
-        commentsPara.textContent = "Computer Wins in a 5 game rounds. [Computer score : " + computersc + "]";
-        resultsPara.textContent = "Computer Score : " + computerScore + " Your Score : " + humanScore;
+function checkWinner() {
+    if (humanScore === 5) {
+        commentsPara.textContent = "You win in a game of race to 5!"
+        commentsPara.style.color = "red";
         resultContainer.appendChild(commentsPara);
-        resultContainer.appendChild(resultsPara);
-    } else if (computersc < humansc) {
-        //return "You Win in a 5 game rounds!"
-        commentsPara.textContent = "You Win in a 5 game rounds. [Your score : " + humansc + "]";
+    }
+    if (computerScore === 5) {
+        commentsPara.textContent = "Computer wins in a game of race to 5!"
+        commentsPara.style.color = "red";
         resultContainer.appendChild(commentsPara);
-    } else {
-        //return "It was a draw on a 5 game rounds!"
-        commentsPara.textContent = "It was a draw on a 5 game rounds! [Computer score : " + computersc + "]";
+    }
+    if (computerScore === 5 && humanScore === 5) {
+        commentsPara.textContent = "Its a draw match!"
+        commentsPara.style.color = "red";
         resultContainer.appendChild(commentsPara);
     }
 }
