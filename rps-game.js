@@ -1,11 +1,18 @@
 // Define functions for choices
 function startGame() {
 
-    const score = []; // store the score of the game
+    const score = [
+        {
+            'humanscore': 0,
+            'computerscore': 0,
+            'gamesPlayed': 0,
+        }
+    ]; // store the score of the game
 
     let humanChoice;
     let getComputerChoice;
     let playGame;
+    let x;
     const buttonsMenu = document.querySelector("#buttons");
     const resultContainer = document.querySelector("#results");
     const commentsPara = document.createElement("p");
@@ -25,6 +32,11 @@ function startGame() {
                 console.log(`Computer choice is`, getComputerChoice.choice);
                 playGame = Entry.playRound(humanChoice.choice, getComputerChoice.choice);
                 console.log(playGame);
+                x = Entry.getWinner(playGame);
+                saveScore(x);
+                console.log(`The winner is ${x}`);
+                console.log(score);
+                getWinner();
                 break;
             case 'paper':
                 humanChoice = new Entry('paper', 'human');
@@ -33,6 +45,10 @@ function startGame() {
                 console.log(`Computer choice is`, getComputerChoice.choice);
                 playGame = Entry.playRound(humanChoice.choice, getComputerChoice.choice);
                 console.log(playGame);
+                x = Entry.getWinner(playGame);
+                saveScore(x);
+                console.log(`The winner is ${x}`);
+                console.log(score);
                 break;
             case 'scissor':
                 humanChoice = new Entry('scissor', 'human');
@@ -41,9 +57,44 @@ function startGame() {
                 console.log(`Computer choice is`, getComputerChoice.choice);
                 playGame = Entry.playRound(humanChoice.choice, getComputerChoice.choice);
                 console.log(playGame);
+                x = Entry.getWinner(playGame);
+                saveScore(x);
+                console.log(`The winner is ${x}`);
+                console.log(score);
                 break;
         }
     });
+
+    function saveScore(winner) {
+
+        switch (winner) {
+            case 'human':
+                score[0].humanscore += 1;
+                score[0].gamesPlayed += 1;
+                break;
+            case 'computer':
+                score[0].computerscore += 1;
+                score[0].gamesPlayed += 1;
+                break;
+            case 'both':
+                score[0].humanscore += 1;
+                score[0].computerscore += 1;
+                score[0].gamesPlayed += 1;
+        }
+    }
+
+    function clearScore() {
+        score[0].humanscore = 0;
+        score[0].computerscore = 0;
+        score[0].gamesPlayed = 0;
+    }
+
+    function getWinner() {
+        let totalGames = (score[0].gamesPlayed < 5);
+        if (totalGames) {
+            console.log(`total games less than 5`);
+        }
+    }
 
 } // end startGame();
 
@@ -68,6 +119,11 @@ class Entry {
 
         const computerChoice = this.randomChoice(choices);
         return new Entry(computerChoice, 'computer');
+    }
+
+    static getWinner(textString) {
+        let parts = textString.split(';');
+        return parts[0];
     }
 
     static playRound(humanChoice, computerChoice) {
@@ -102,7 +158,7 @@ class Entry {
             resultContainer.appendChild(commentsPara);
             resultContainer.appendChild(resultsPara); */
         } else if (computerChoice == "paper" && humanChoice == "paper") {
-            return `BOTH;It's a DRAW! Both are PAPER`;
+            return `both;It's a DRAW! Both are PAPER`;
             /* computerScore++;
             humanScore++;
             commentsPara.textContent = "Its a draw! Both are paper.";
@@ -132,7 +188,7 @@ class Entry {
             resultContainer.appendChild(commentsPara);
             resultContainer.appendChild(resultsPara); */
         } else if (computerChoice == "scissor" && humanChoice == "scissor") {
-            return `BOTH;It's a DRAW! Both are SCISSORS`;
+            return `both;It's a DRAW! Both are SCISSORS`;
             /* computerScore++;
             humanScore++;
             commentsPara.textContent = "Its a draw! Both are scissor.";
