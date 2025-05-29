@@ -12,57 +12,47 @@ function startGame() {
     let humanChoice;
     let getComputerChoice;
     let playGame;
-    let x;
+    let winner;
     const buttonsMenu = document.querySelector("#buttons");
-    const resultContainer = document.querySelector("#results");
-    const commentsPara = document.createElement("p");
-    const resultsPara = document.createElement("p");
 
     buttonsMenu.addEventListener("click", (event) => {
         let target = event.target;
-
-        resultContainer.appendChild(commentsPara);
-        resultContainer.appendChild(resultsPara);
 
         switch (target.id) {
             case 'rock':
                 humanChoice = new Entry('rock', 'human');
                 getComputerChoice = Entry.getComputerChoice();
-                console.log(`Your choice is rock`);
-                console.log(`Computer choice is`, getComputerChoice.choice);
                 playGame = Entry.playRound(humanChoice.choice, getComputerChoice.choice);
-                console.log(playGame);
-                x = Entry.getWinner(playGame);
-                saveScore(x);
-                console.log(`The winner is ${x}`);
-                console.log(score);
-                getWinner();
+                winner = Entry.getWinner(playGame);
+                saveScore(winner);
+                displayOnScreen(winner);
                 break;
             case 'paper':
                 humanChoice = new Entry('paper', 'human');
                 getComputerChoice = Entry.getComputerChoice();
-                console.log(`Your choice is paper`);
-                console.log(`Computer choice is`, getComputerChoice.choice);
                 playGame = Entry.playRound(humanChoice.choice, getComputerChoice.choice);
-                console.log(playGame);
-                x = Entry.getWinner(playGame);
-                saveScore(x);
-                console.log(`The winner is ${x}`);
-                console.log(score);
+                winner = Entry.getWinner(playGame);
+                saveScore(winner);
+                displayOnScreen(playGame);
                 break;
             case 'scissor':
                 humanChoice = new Entry('scissor', 'human');
                 getComputerChoice = Entry.getComputerChoice();
-                console.log(`Your choice is scissors`);
-                console.log(`Computer choice is`, getComputerChoice.choice);
                 playGame = Entry.playRound(humanChoice.choice, getComputerChoice.choice);
-                console.log(playGame);
-                x = Entry.getWinner(playGame);
-                saveScore(x);
-                console.log(`The winner is ${x}`);
-                console.log(score);
+                winner = Entry.getWinner(playGame);
+                saveScore(winner);
+                displayOnScreen(playGame);
                 break;
         }
+
+        let checkForWinner = getWinner();
+        if (checkForWinner) {
+            displayOnScreen(checkForWinner);
+            clearScore();
+        } else {
+            displayOnScreen(playGame);
+        }
+
     });
 
     function saveScore(winner) {
@@ -90,9 +80,41 @@ function startGame() {
     }
 
     function getWinner() {
-        let totalGames = (score[0].gamesPlayed < 5);
+        let totalGames = (score[0].gamesPlayed === 5);
         if (totalGames) {
-            console.log(`total games less than 5`);
+            if (score[0].humanscore < score[0].computerscore) {
+                return `Computer Wins in a game of ${score[0].gamesPlayed}`;
+            } else {
+                return `You Win in a game of ${score[0].gamesPlayed}`;
+            }
+        }
+        return;
+    }
+
+    function displayOnScreen(textString) {
+        const resultContainer = document.querySelector("#results");
+        const commentsPara = document.createElement("p");
+        const resultsPara = document.createElement("p");
+
+        // clear the html output
+        resultContainer.innerHTML = '';
+
+        const partsString = textString.split(';');
+
+        if (partsString.length >= 2) {
+            commentsPara.textContent = partsString[1];
+            commentsPara.style.color = 'red';
+            resultsPara.textContent = `Your score is : ${score[0].humanscore} | Computer score is : ${score[0].computerscore}| Games played : ${score[0].gamesPlayed}`;
+            resultsPara.style.color = 'black';
+            resultContainer.appendChild(commentsPara);
+            resultContainer.appendChild(resultsPara);
+        } else {
+            commentsPara.textContent = `Your score is : ${score[0].humanscore} | Computer score is : ${score[0].computerscore}| Games played : ${score[0].gamesPlayed}`;
+            commentsPara.style.color = 'black';
+            resultsPara.textContent = textString;
+            resultsPara.style.color = 'red';
+            resultContainer.appendChild(commentsPara);
+            resultContainer.appendChild(resultsPara);
         }
     }
 
